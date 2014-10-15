@@ -1,0 +1,31 @@
+{
+  "name": "css-image",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "repository": "lexich/css-image",
+  "scripts": {
+    "test": "istanbul test _mocha --report html -- test/*.js --reporter spec",
+    "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+  },
+  "keywords": [
+    "css",
+    "node"
+  ],
+  "author": {
+    "name": "Efremov Alex",
+    "email": "lexich121@gmail.com",
+    "url": "https://github.com/lexich"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "node-css": "0.0.2"
+  },
+  "devDependencies": {
+    "coveralls": "*",
+    "istanbul": "*",
+    "mocha": "*",
+    "mocha-lcov-reporter": "*",
+    "should": "~2.1.0"
+  }
+}
