@@ -162,7 +162,7 @@ describe("test CSSImage", function(){
       "  background-size: 400px 300px;\n" +
       "}\n" +
       "@media (min-device-pixel-ratio: 2) and (min-resolution: 192dpi){\n" +
-      "  .img_t-2x{\n" +
+      "  .img_t{\n" +
       "    width: 200px;\n" +
       "    height: 150px;\n" +
       "    background-image: url(root/t.png);\n" +

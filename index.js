@@ -109,7 +109,7 @@ function cssimage(images, options){
     if(is_css){
       result += _cssImage.css(img.file, img.width, img.height, root, options);
       if(is_retina){
-        var opt = _.extend({postfix: "-2x", is_retina: true}, options);
+        var opt = _.extend({is_retina: true}, options);
         result += _cssImage.css(img.file, img.width/2, img.height/2, root, opt);
       }
     }
