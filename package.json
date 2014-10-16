@@ -19,6 +19,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "lodash": "^2.4.1",
     "node-css": "0.0.2"
   },
   "devDependencies": {
