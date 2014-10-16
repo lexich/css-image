@@ -109,4 +109,18 @@ describe("test CSSImage", function(){
                 "$test_images__height: 110px\n";
     c.scss("test/images.jpg", 100, 110, "../images").should.eql(result);
   });
+  it("test scss with retina", function(){
+    var result = "@mixin test_images(){\n" +
+                 "  @media (min-device-pixel-ratio: 2) and (min-resolution: 192dpi){\n" +
+                 "    width: 100px;\n"+
+                 "    height: 110px;\n"+
+                 "    background-image: url(../images/test/images.jpg);\n"+
+                 "    background-size: 100px 110px;\n"+
+                 "  }\n" +
+                 "}\n" +
+                "$test_images__width: 100px\n" +
+                "$test_images__height: 110px\n";
+    c.scss("test/images.jpg", 100, 110, "../images", {is_retina: true}).should.eql(result);
+  });
+
 });
