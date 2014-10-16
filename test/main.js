@@ -9,12 +9,12 @@ describe("test CSSImage", function(){
   var CSSImage = cssimage.CSSImage;
   var c = new CSSImage();
   it("test name", function(){
-    c.name("2.png").should.eql("2");
-    c.name("test/2.jpg").should.eql("test_2");
-    c.name("/images/test/2.gif").should.eql("images_test_2");
-    c.name("./images/test/2.gif").should.eql("images_test_2");
-    c.name(".images/test/2.gif").should.eql("images_test_2");
-    c.name("images/test/.2.jpg").should.eql("images_test_2");
+    c.name("2.png").should.eql("img_2");
+    c.name("test/2.jpg").should.eql("img_test_2");
+    c.name("/images/test/2.gif").should.eql("img_images_test_2");
+    c.name("./images/test/2.gif").should.eql("img_images_test_2");
+    c.name(".images/test/2.gif").should.eql("img_images_test_2");
+    c.name("images/test/.2.jpg").should.eql("img_images_test_2");
   });
   it("test normalize_folder", function(){
     c.normalize_folder(".").should.eql("");
@@ -53,7 +53,7 @@ describe("test CSSImage", function(){
     c.url("test.jpg", "../images").should.eql("url(../images/test.jpg)");
   });
   it("test css", function(){
-    var result = ".test_images{\n" +
+    var result = ".img_test_images{\n" +
                  "  width: 100px;\n" +
                  "  height: 110px;\n" +
                  "  background-image: url(../images/test/images.jpg);\n" +
@@ -63,7 +63,7 @@ describe("test CSSImage", function(){
   });
   it("test css with retina", function(){
     var result = "@media (min-device-pixel-ratio: 2) and (min-resolution: 192dpi){\n" + 
-                 "  .test_images{\n" +
+                 "  .img_test_images{\n" +
                  "    width: 50px;\n" +
                  "    height: 55px;\n" +
                  "    background-image: url(../images/test/images.jpg);\n" +
@@ -74,7 +74,7 @@ describe("test CSSImage", function(){
   });
 
   it("test scss_mixin with retina", function(){
-    var result = "@mixin test_images(){\n" + 
+    var result = "@mixin img_test_images(){\n" + 
                  "  @media (min-device-pixel-ratio: 2) and (min-resolution: 192dpi){\n" +
                  "    width: 100px;\n" +
                  "    height: 110px;\n" +
@@ -85,7 +85,7 @@ describe("test CSSImage", function(){
     c.scss_mixin("test/images.jpg", 100, 110, "../images", {is_retina: true}).should.eql(result);
   });
   it("test scss_mixin", function(){
-    var result = "@mixin test_images(){\n" +
+    var result = "@mixin img_test_images(){\n" +
                  "  width: 100px;\n"+
                  "  height: 110px;\n"+
                  "  background-image: url(../images/test/images.jpg);\n"+
@@ -94,23 +94,23 @@ describe("test CSSImage", function(){
     c.scss_mixin("test/images.jpg", 100, 110, "../images").should.eql(result);
   });
   it("test scss_vars", function(){
-    var result = "$test_images__width: 100px\n" +
-                 "$test_images__height: 110px\n";
+    var result = "$img_test_images__width: 100px\n" +
+                 "$img_test_images__height: 110px\n";
     c.scss_vars("test/images.jpg", 100, 110).should.eql(result);
   });
   it("test scss", function(){
-    var result = "@mixin test_images(){\n" +
+    var result = "@mixin img_test_images(){\n" +
                  "  width: 100px;\n"+
                  "  height: 110px;\n"+
                  "  background-image: url(../images/test/images.jpg);\n"+
                  "  background-size: 100px 110px;\n"+
                  "}\n" +
-                "$test_images__width: 100px\n" +
-                "$test_images__height: 110px\n";
+                "$img_test_images__width: 100px\n" +
+                "$img_test_images__height: 110px\n";
     c.scss("test/images.jpg", 100, 110, "../images").should.eql(result);
   });
   it("test scss with retina", function(){
-    var result = "@mixin test_images(){\n" +
+    var result = "@mixin img_test_images(){\n" +
                  "  @media (min-device-pixel-ratio: 2) and (min-resolution: 192dpi){\n" +
                  "    width: 100px;\n"+
                  "    height: 110px;\n"+
@@ -118,8 +118,8 @@ describe("test CSSImage", function(){
                  "    background-size: 100px 110px;\n"+
                  "  }\n" +
                  "}\n" +
-                "$test_images__width: 100px\n" +
-                "$test_images__height: 110px\n";
+                "$img_test_images__width: 100px\n" +
+                "$img_test_images__height: 110px\n";
     c.scss("test/images.jpg", 100, 110, "../images", {is_retina: true}).should.eql(result);
   });
 

@@ -1,13 +1,18 @@
 "use strict";
 //{ format: 'png', width: 400, height: 300, file: '2.png' }
 var nodecss = require("node-css"),
+    _ = require("lodash"),
     libpath = require("path"),
     CSS = nodecss.CSS;
 
 var MEDIA_QUERY = "(min-device-pixel-ratio: 2) and (min-resolution: 192dpi)";
 var css = new CSS();
-function CSSImage(){
+var DEFAULT_OPTIONS = {
+  prefix: "img_"
+};
 
+function CSSImage(options){
+  this.options = _.defaults(options || {}, DEFAULT_OPTIONS);
 }
 
 CSSImage.prototype.css = function(filepath, width, height, root, options){
@@ -82,8 +87,8 @@ CSSImage.prototype.name = function(filepath){
   var ext = libpath.extname(filepath);
   var name = filename.slice(0, filename.length - ext.length).replace(/\./,"");
   var folder = this.normalize_folder(filepath);
-  if(folder === ""){ return name; }
-  return folder.replace(/\//g, "_") + "_" + name;
+  if(folder === ""){ return this.options.prefix + name; }
+  return this.options.prefix + folder.replace(/\//g, "_") + "_" + name;
 };
 
 
