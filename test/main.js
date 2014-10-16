@@ -15,6 +15,7 @@ describe("test CSSImage", function(){
     c.name("./images/test/2.gif").should.eql("img_images_test_2");
     c.name(".images/test/2.gif").should.eql("img_images_test_2");
     c.name("images/test/.2.jpg").should.eql("img_images_test_2");
+    c.name("2.png", {postfix:"-2x"}).should.eql("img_2-2x");
   });
   it("test normalize_folder", function(){
     c.normalize_folder(".").should.eql("");
@@ -60,6 +61,14 @@ describe("test CSSImage", function(){
                  "  background-size: 100px 110px;\n" +
                  "}\n";
     c.css("test/images.jpg", 100, 110, "../images").should.eql(result);
+    result = ".img_test_images-2x{\n" +
+                 "  width: 100px;\n" +
+                 "  height: 110px;\n" +
+                 "  background-image: url(../images/test/images.jpg);\n" +
+                 "  background-size: 100px 110px;\n" +
+                 "}\n";
+    c.css("test/images.jpg", 100, 110, "../images", {postfix:"-2x"}).should.eql(result);
+
   });
   it("test css with retina", function(){
     var result = "@media (min-device-pixel-ratio: 2) and (min-resolution: 192dpi){\n" + 
@@ -97,6 +106,10 @@ describe("test CSSImage", function(){
     var result = "$img_test_images__width: 100px\n" +
                  "$img_test_images__height: 110px\n";
     c.scss_vars("test/images.jpg", 100, 110).should.eql(result);
+    result = "$img_test_images-2x__width: 100px\n" +
+             "$img_test_images-2x__height: 110px\n";
+    c.scss_vars("test/images.jpg", 100, 110, {postfix:"-2x"}).should.eql(result);
+
   });
   it("test scss", function(){
     var result = "@mixin img_test_images(){\n" +
@@ -108,6 +121,16 @@ describe("test CSSImage", function(){
                 "$img_test_images__width: 100px\n" +
                 "$img_test_images__height: 110px\n";
     c.scss("test/images.jpg", 100, 110, "../images").should.eql(result);
+    result = "@mixin img_test_images-2x(){\n" +
+                 "  width: 100px;\n"+
+                 "  height: 110px;\n"+
+                 "  background-image: url(../images/test/images.jpg);\n"+
+                 "  background-size: 100px 110px;\n"+
+                 "}\n" +
+                "$img_test_images-2x__width: 100px\n" +
+                "$img_test_images-2x__height: 110px\n";
+    c.scss("test/images.jpg", 100, 110, "../images", {postfix: "-2x"}).should.eql(result);
+
   });
   it("test scss with retina", function(){
     var result = "@mixin img_test_images(){\n" +

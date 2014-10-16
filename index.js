@@ -16,7 +16,7 @@ function CSSImage(options){
 }
 
 CSSImage.prototype.css = function(filepath, width, height, root, options){
-  var classname = "." + this.name(filepath);
+  var classname = "." + this.name(filepath, options);
   if(options && options.is_retina){
     options.media = MEDIA_QUERY;
   }
@@ -28,14 +28,14 @@ CSSImage.prototype.css = function(filepath, width, height, root, options){
   }, options);
 };
 
-CSSImage.prototype.scss_vars = function(filepath, width, height){
-  var name = this.name(filepath);
+CSSImage.prototype.scss_vars = function(filepath, width, height, options){
+  var name = this.name(filepath, options);
   return "$" + name + "__width: " + width + "px\n" +
          "$" + name + "__height: " + height + "px\n";
 };
 
 CSSImage.prototype.scss_mixin = function(filepath, width, height, root, options){
-  var name = this.name(filepath);
+  var name = this.name(filepath, options);
   var classname = "@mixin " + name + "()";
   var is_retina = options && options.is_retina;
   var indent = "";
@@ -57,7 +57,7 @@ CSSImage.prototype.scss_mixin = function(filepath, width, height, root, options)
 
 CSSImage.prototype.scss = function(filepath, width, height, root, options){
   return this.scss_mixin(filepath, width, height, root, options) +
-         this.scss_vars(filepath, width, height);
+         this.scss_vars(filepath, width, height, options);
 };
 
 CSSImage.prototype.url = function(filepath, root){
@@ -82,13 +82,14 @@ CSSImage.prototype.normalize_folder = function(filepath, root){
   }
 };
 
-CSSImage.prototype.name = function(filepath){
+CSSImage.prototype.name = function(filepath, options){
+  var postfix = options && options.postfix ? options.postfix : "";
   var filename = libpath.basename(filepath);
   var ext = libpath.extname(filepath);
   var name = filename.slice(0, filename.length - ext.length).replace(/\./,"");
   var folder = this.normalize_folder(filepath);
-  if(folder === ""){ return this.options.prefix + name; }
-  return this.options.prefix + folder.replace(/\//g, "_") + "_" + name;
+  if(folder === ""){ return this.options.prefix + name + postfix; }
+  return this.options.prefix + folder.replace(/\//g, "_") + "_" + name + postfix;
 };
 
 
