@@ -80,12 +80,12 @@ describe("test CSSImage", function(){
                  "    height: 110px;\n" +
                  "    background-image: url(../images/test/images.jpg);\n" +
                  "    background-size: 100px 110px;\n" +
-                 "  }\n" + 
+                 "  }\n" +
                  "}\n";
     c.scss_mixin("test/images.jpg", 100, 110, "../images", {is_retina: true}).should.eql(result);
   });
   it("test scss_mixin", function(){
-    var result = "@mixin test_images(){\n" + 
+    var result = "@mixin test_images(){\n" +
                  "  width: 100px;\n"+
                  "  height: 110px;\n"+
                  "  background-image: url(../images/test/images.jpg);\n"+
@@ -94,8 +94,19 @@ describe("test CSSImage", function(){
     c.scss_mixin("test/images.jpg", 100, 110, "../images").should.eql(result);
   });
   it("test scss_vars", function(){
-    var result = "$test_images__width: 100px\n" + 
+    var result = "$test_images__width: 100px\n" +
                  "$test_images__height: 110px\n";
     c.scss_vars("test/images.jpg", 100, 110).should.eql(result);
+  });
+  it("test scss", function(){
+    var result = "@mixin test_images(){\n" +
+                 "  width: 100px;\n"+
+                 "  height: 110px;\n"+
+                 "  background-image: url(../images/test/images.jpg);\n"+
+                 "  background-size: 100px 110px;\n"+
+                 "}\n" +
+                "$test_images__width: 100px\n" +
+                "$test_images__height: 110px\n";
+    c.scss("test/images.jpg", 100, 110, "../images").should.eql(result);
   });
 });

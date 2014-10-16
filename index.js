@@ -50,6 +50,11 @@ CSSImage.prototype.scss_mixin = function(filepath, width, height, root, options)
   return classname + "{\n" + body + "}\n";
 };
 
+CSSImage.prototype.scss = function(filepath, width, height, root, options){
+  return this.scss_mixin(filepath, width, height, root, options) +
+         this.scss_vars(filepath, width, height);
+};
+
 CSSImage.prototype.url = function(filepath, root){
   return "url(" + this.normalize_path(filepath, root) + ")";
 };
