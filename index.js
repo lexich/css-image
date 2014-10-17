@@ -17,26 +17,37 @@ CSSImage.prototype.css = function(filepath, width, height, root, options){
   if(options.retina){
     options.media = MEDIA_QUERY;
   }
+  var squeeze = !!options.squeeze ? +options.squeeze : 1;
+  var _width = Math.floor(width/squeeze);
+  var _height = Math.floor(height/squeeze);
   return css.statement(classname,{
-    width: width + "px",
-    height: height + "px",
+    width: _width + "px",
+    height: _height + "px",
     "background-image": this.url(filepath, root, options.retina),
-    "background-size": "" + width  + "px " + height + "px"
+    "background-size": "" + _width  + "px " + _height + "px"
   }, options);
 };
 
-CSSImage.prototype.scss_vars = function(filepath, width, height, options){
+CSSImage.prototype.scss_vars = function(filepath, _width, _height, options){
   var name = this.name(filepath, options);
+  var squeeze = (options && !!options.squeeze) ? +options.squeeze : 1;
+  var width = Math.floor(_width/squeeze);
+  var height = Math.floor(_height/squeeze);
+
   return "$" + name + "__width: " + width + "px;\n" +
          "$" + name + "__height: " + height + "px;\n";
 };
 
-CSSImage.prototype.scss_mixin = function(filepath, width, height, root, options){
+CSSImage.prototype.scss_mixin = function(filepath, _width, _height, root, options){
   var name = this.name(filepath, options);
   if(!options){ options = {}; }
   var classname = "@mixin " + name + "()";
   var is_retina = !!options.retina;
   var indent = css.options(options, "indent");
+  var squeeze = (options && !!options.squeeze) ? +options.squeeze : 1;
+  var width = Math.floor(_width/squeeze);
+  var height = Math.floor(_height/squeeze);
+
   var scss_mixin = css.body({
     width: width + "px",
     height: height + "px",
@@ -88,6 +99,7 @@ CSSImage.prototype.normalize_folder = function(filepath, root){
 
 CSSImage.prototype.name = function(filepath, options){
   var postfix = options && options.postfix ? options.postfix : "";
+  if(options && options.squeeze){ postfix += "-s" + options.squeeze; }
   var prefix = options && options.prefix ? options.prefix : "img_";
   var filename = libpath.basename(filepath);
   var ext = libpath.extname(filepath);
@@ -98,27 +110,38 @@ CSSImage.prototype.name = function(filepath, options){
 };
 
 var _cssImage = new CSSImage();
-function cssimage(images, options){
-  options = _.extend({}, options);
+function cssimage(images, _options){
+  var options = _.omit(_options, ["retina","squeeze"]);
   var is_css = !!options.css;
   var is_scss = !!options.scss;
   var root = options.root || "";
   var result = "";
-  var is_retina = !!options.retina;
+  var is_retina = _options && !!_options.retina;
+  var squeeze = (_options && _options.squeeze) || 1;
   for(var i = 0; i< images.length; i++){
     var img = images[i];
     if(is_css){
-      var opt = _.extend({}, options);
-      delete opt.retina;
-      result += _cssImage.css(img.file, img.width, img.height, root, opt);
+      result += _cssImage.css(img.file, img.width, img.height, root, options);
       if(is_retina){
-        opt = _.extend({retina: true}, options);
-        result += _cssImage.css(img.file, img.width, img.height, root, opt);
+        result += _cssImage.css(img.file, img.width, img.height, root, _.extend({
+          retina: true
+        }, options));
+      }
+      if(squeeze !== 1){
+        result += _cssImage.css(img.file, img.width, img.height, root, _.extend({
+          squeeze: squeeze
+        }, options));
       }
     }
     if(is_scss){
-      var opt2 = _.extend({is_retina: true}, options);
-      result += _cssImage.scss(img.file, img.width, img.height, root, opt2);
+      result += _cssImage.scss(img.file, img.width, img.height, root, _.extend({
+        retina: true
+      }, options));
+      if(squeeze !== 1){
+        result += _cssImage.scss(img.file, img.width, img.height, root, _.extend({
+          squeeze: squeeze
+        }, options));
+      }
     }
   }
   return result;
