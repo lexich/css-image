@@ -42,6 +42,8 @@ describe("test CSSImage", function(){
     c.normalize_path("./test.jpg").should.eql("test.jpg");
     c.normalize_path(".test.jpg").should.eql(".test.jpg");
     c.normalize_path("test/test1.jpg").should.eql("test/test1.jpg");
+    c.normalize_path("test.jpg", "root", true).should.eql("root/test-50pc.jpg");
+    c.normalize_path("test.jpg", "root", "-2x").should.eql("root/test-2x.jpg");
   });
   it("test normalize_path with root", function(){
     c.normalize_path(".", "images").should.eql("images");
@@ -52,6 +54,8 @@ describe("test CSSImage", function(){
   });
   it("test url", function(){
     c.url("test.jpg", "../images").should.eql("url(../images/test.jpg)");
+    c.url("test.jpg", "../images", true).should.eql("url(../images/test-50pc.jpg)");
+    c.url("test.jpg", "../images", "-2x").should.eql("url(../images/test-2x.jpg)");
   });
   it("test css", function(){
     var result = ".img_test_images{\n" +
@@ -73,13 +77,13 @@ describe("test CSSImage", function(){
   it("test css with retina", function(){
     var result = "@media (min-device-pixel-ratio: 2) and (min-resolution: 192dpi){\n" + 
                  "  .img_test_images{\n" +
-                 "    width: 50px;\n" +
-                 "    height: 55px;\n" +
-                 "    background-image: url(../images/test/images.jpg);\n" +
-                 "    background-size: 50px 55px;\n" +
+                 "    width: 100px;\n" +
+                 "    height: 110px;\n" +
+                 "    background-image: url(../images/test/images-50pc.jpg);\n" +
+                 "    background-size: 100px 110px;\n" +
                  "  }\n" +
                  "}\n";
-    c.css("test/images.jpg", 50, 55, "../images", {is_retina: true}).should.eql(result);
+    c.css("test/images.jpg", 100, 110, "../images", {retina: true}).should.eql(result);
   });
 
   it("test scss_mixin with retina", function(){
@@ -89,13 +93,13 @@ describe("test CSSImage", function(){
                  "  background-image: url(../images/test/images.jpg);\n" +
                  "  background-size: 100px 110px;\n" +
                  "  @media (min-device-pixel-ratio: 2) and (min-resolution: 192dpi){\n" +
-                 "    width: 50px;\n" +
-                 "    height: 55px;\n" +
-                 "    background-image: url(../images/test/images.jpg);\n" +
-                 "    background-size: 50px 55px;\n" +
+                 "    width: 100px;\n" +
+                 "    height: 110px;\n" +
+                 "    background-image: url(../images/test/images-50pc.jpg);\n" +
+                 "    background-size: 100px 110px;\n" +
                  "  }\n" +
                  "}\n";
-    c.scss_mixin("test/images.jpg", 100, 110, "../images", {is_retina: true}).should.eql(result);
+    c.scss_mixin("test/images.jpg", 100, 110, "../images", {retina: true}).should.eql(result);
   });
   it("test scss_mixin", function(){
     var result = "@mixin img_test_images(){\n" +
@@ -143,15 +147,15 @@ describe("test CSSImage", function(){
                  "  background-image: url(../images/test/images.jpg);\n"+
                  "  background-size: 100px 110px;\n"+
                  "  @media (min-device-pixel-ratio: 2) and (min-resolution: 192dpi){\n" +
-                 "    width: 50px;\n"+
-                 "    height: 55px;\n"+
-                 "    background-image: url(../images/test/images.jpg);\n"+
-                 "    background-size: 50px 55px;\n"+
+                 "    width: 100px;\n"+
+                 "    height: 110px;\n"+
+                 "    background-image: url(../images/test/images-50pc.jpg);\n"+
+                 "    background-size: 100px 110px;\n"+
                  "  }\n" +
                  "}\n" +
                 "$img_test_images__width: 100px;\n" +
                 "$img_test_images__height: 110px;\n";
-    c.scss("test/images.jpg", 100, 110, "../images", {is_retina: true}).should.eql(result);
+    c.scss("test/images.jpg", 100, 110, "../images", {retina: true}).should.eql(result);
   });
   it("test external api", function(){
     var result = "" + 
@@ -163,10 +167,10 @@ describe("test CSSImage", function(){
       "}\n" +
       "@media (min-device-pixel-ratio: 2) and (min-resolution: 192dpi){\n" +
       "  .img_t{\n" +
-      "    width: 200px;\n" +
-      "    height: 150px;\n" +
-      "    background-image: url(root/t.png);\n" +
-      "    background-size: 200px 150px;\n" +
+      "    width: 400px;\n" +
+      "    height: 300px;\n" +
+      "    background-image: url(root/t-50pc.png);\n" +
+      "    background-size: 400px 300px;\n" +
       "  }\n" +
       "}\n" +
       "@mixin img_t(){\n" +
@@ -175,10 +179,10 @@ describe("test CSSImage", function(){
       "  background-image: url(root/t.png);\n" +
       "  background-size: 400px 300px;\n" +
       "  @media (min-device-pixel-ratio: 2) and (min-resolution: 192dpi){\n" +
-      "    width: 200px;\n" +
-      "    height: 150px;\n" +
-      "    background-image: url(root/t.png);\n" +
-      "    background-size: 200px 150px;\n" +
+      "    width: 400px;\n" +
+      "    height: 300px;\n" +
+      "    background-image: url(root/t-50pc.png);\n" +
+      "    background-size: 400px 300px;\n" +
       "  }\n" +
       "}\n" +
       "$img_t__width: 400px;\n" +
@@ -187,7 +191,7 @@ describe("test CSSImage", function(){
     cssimage([{ width: 400, height: 300, file: "t.png"}],{
       css: true,
       scss: true,
-      is_retina: true,
+      retina: true,
       root: "root"
     }).should.eql(result);
   });
