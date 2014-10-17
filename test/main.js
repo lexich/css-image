@@ -16,6 +16,8 @@ describe("test CSSImage", function(){
     c.name(".images/test/2.gif").should.eql("img_images_test_2");
     c.name("images/test/.2.jpg").should.eql("img_images_test_2");
     c.name("2.png", {postfix:"-2x"}).should.eql("img_2-2x");
+    c.name("images/test/2.png", {separator: "@"}).should.eql("img_images@test@2");
+    c.name("images/test/2.png", {prefix: "test_"}).should.eql("test_images_test_2");
   });
   it("test normalize_folder", function(){
     c.normalize_folder(".").should.eql("");
