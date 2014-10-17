@@ -76,6 +76,15 @@ describe("test CSSImage", function(){
     c.css("test/images.jpg", 100, 110, "../images", {postfix:"-2x"}).should.eql(result);
 
   });
+  it("test css with separator", function(){
+    var result = ".img-test-images{\n" +
+                 "  width: 100px;\n" +
+                 "  height: 110px;\n" +
+                 "  background-image: url(../images/test/images.jpg);\n" +
+                 "  background-size: 100px 110px;\n" +
+                 "}\n";
+    c.css("test/images.jpg", 100, 110, "../images", {separator: "-", prefix:"img-"}).should.eql(result);
+  });
   it("test css with retina", function(){
     var result = "@media (min-device-pixel-ratio: 2) and (min-resolution: 192dpi){\n" +
                  "  .img_test_images{\n" +
