@@ -182,5 +182,6 @@ $img_t-s2__height: 150px;
   ```
 
 ### ChangeLog
+- 0.0.2 add separator option
 - 0.0.1 Basic functionality
 
