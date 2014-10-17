@@ -1,5 +1,4 @@
 "use strict";
-//{ format: 'png', width: 400, height: 300, file: '2.png' }
 var nodecss = require("node-css"),
     _ = require("lodash"),
     libpath = require("path"),
