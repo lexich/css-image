@@ -2,7 +2,7 @@ generator css and scss templates for images
 
 [![Build Status](https://travis-ci.org/lexich/css-image.svg)](https://travis-ci.org/lexich/css-image)
 [![NPM version](https://badge.fury.io/js/css-image.svg)](http://badge.fury.io/js/css-image)
-[![Coverage Status](https://coveralls.io/repos/lexich/css-image/badge.png)](https://coveralls.io/r/lexich/css-image)
+[![Coverage Status](https://coveralls.io/repos/lexich/css-image/badge.png?branch=master)](https://coveralls.io/r/lexich/css-image?branch=master)
 
 ### Examples
 ```javascript
