@@ -241,6 +241,24 @@ describe("test CSSImage", function(){
       root: "root"
     }).should.eql(result);
   });
+  it("test external api scss without retina with default", function(){
+    var result = "" +
+      "@mixin img_t(){\n" +
+      "  width: 400px;\n" +
+      "  height: 300px;\n" +
+      "  background-image: url(root/t.png);\n" +
+      "  background-size: 400px 300px;\n" +
+      "}\n" +
+      "$img_t__width: 400px;\n" +
+      "$img_t__height: 300px;\n";
+
+    cssimage([{ width: 400, height: 300, file: "t.png"}],{
+      css: false,
+      scss: true,
+      retina: false,
+      root: "root"
+    }).should.eql(result);
+  });
   it("test external api css all options", function(){
     var result = "" +
       ".img_t{\n" +
