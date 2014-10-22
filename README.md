@@ -181,6 +181,14 @@ $img_t-s2__height: 150px;
   $img_t-s2__width: 200px; 
   $img_t-s2__height: 150px;
   ```
+  
+- **separator**: separator for generating names
+> *type*: string  
+> *default*: "_"  
+
+- **prefix**: prefix for generating names
+> *type*: string  
+> *default*: "img_"  
 
 ### ChangeLog
 - 0.1.0 rename css-image
