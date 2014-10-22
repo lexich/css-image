@@ -135,7 +135,7 @@ function cssimage(images, _options){
     }
     if(is_scss){
       result += _cssImage.scss(img.file, img.width, img.height, root, _.extend({
-        retina: true
+        retina: is_retina
       }, options));
       if(squeeze !== 1){
         result += _cssImage.scss(img.file, img.width, img.height, root, _.extend({
