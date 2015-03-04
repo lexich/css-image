@@ -82,7 +82,11 @@ CSSImage.prototype.normalize_path = function(filepath, root, retina){
     var postfix = (typeof retina === "string") ? retina : "-50pc";
     name = name.replace(ext, postfix + ext);
   }
-  return libpath.join(this.normalize_folder(filepath, root), name);
+  var normalized_path = libpath.join(this.normalize_folder(filepath, root), name);
+  if (libpath.sep == '\\'){
+    normalized_path = normalized_path.replace(/\\/g, '/');
+  }
+  return normalized_path;
 };
 
 CSSImage.prototype.normalize_folder = function(filepath, root){
@@ -106,7 +110,13 @@ CSSImage.prototype.name = function(filepath, options){
   var name = filename.slice(0, filename.length - ext.length).replace(/\./,"");
   var folder = this.normalize_folder(filepath);
   if(folder === ""){ return prefix + name + postfix; }
-  return prefix + folder.replace(/\//g, separator) + separator + name + postfix;
+  // windows fix
+  if (libpath.sep == '\\'){
+    folder =  folder.replace(/\\/g, separator);
+  }else{
+    folder = folder.replace(/\//g, separator);
+  }
+  return prefix + folder + separator + name + postfix;
 };
 
 var _cssImage = new CSSImage();
