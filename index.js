@@ -4,6 +4,7 @@ var nodecss = require("node-css"),
     libpath = require("path"),
     CSS = nodecss.CSS;
 
+var rxReplacePath = new RegExp(libpath.sep, "g");
 var MEDIA_QUERY = "(min-device-pixel-ratio: 2) and (min-resolution: 192dpi)";
 var css = new CSS();
 
@@ -83,9 +84,7 @@ CSSImage.prototype.normalize_path = function(filepath, root, retina){
     name = name.replace(ext, postfix + ext);
   }
   var normalized_path = libpath.join(this.normalize_folder(filepath, root), name);
-  if (libpath.sep == '\\'){
-    normalized_path = normalized_path.replace(/\\/g, '/');
-  }
+  normalized_path = normalized_path.replace(rxReplacePath, '/');
   return normalized_path;
 };
 
@@ -111,11 +110,7 @@ CSSImage.prototype.name = function(filepath, options){
   var folder = this.normalize_folder(filepath);
   if(folder === ""){ return prefix + name + postfix; }
   // windows fix
-  if (libpath.sep == '\\'){
-    folder =  folder.replace(/\\/g, separator);
-  }else{
-    folder = folder.replace(/\//g, separator);
-  }
+  folder = folder.replace(rxReplacePath, separator);
   return prefix + folder + separator + name + postfix;
 };
 
