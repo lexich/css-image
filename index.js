@@ -4,7 +4,7 @@ var nodecss = require("node-css"),
     libpath = require("path"),
     CSS = nodecss.CSS;
 
-var rxReplacePath = new RegExp(libpath.sep, "g");
+var rxReplacePath = new RegExp(escape(libpath.sep), "g");
 var MEDIA_QUERY = "(min-device-pixel-ratio: 2) and (min-resolution: 192dpi)";
 var css = new CSS();
 
