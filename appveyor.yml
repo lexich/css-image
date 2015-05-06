@@ -4,9 +4,6 @@ init:
 environment:
   nodejs_version: "0.12"
 
-platform:
-  - x86
-
 install:
   - ps: Install-Product node $env:nodejs_version
   - npm -g install npm@2
