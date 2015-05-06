@@ -4,7 +4,7 @@ var nodecss = require("node-css"),
     libpath = require("path"),
     CSS = nodecss.CSS;
 
-var rxReplacePath = new RegExp(escape(libpath.sep), "g");
+var rxReplacePath = /(\/|\\)/g;
 var MEDIA_QUERY = "(min-device-pixel-ratio: 2) and (min-resolution: 192dpi)";
 var css = new CSS();
 
@@ -92,11 +92,8 @@ CSSImage.prototype.normalize_folder = function(filepath, root){
   var folder = libpath.dirname(filepath);
   if(folder[0] === "." && folder[1] !== "."){ folder = folder.slice(1); }
   if(folder[0] === "/"){ folder = folder.slice(1); }
-  if(root){
-    return libpath.join(root, folder);
-  } else {
-    return folder;
-  }
+  var result = root ? libpath.join(root, folder) : folder;
+  return result.replace(rxReplacePath, "/");
 };
 
 CSSImage.prototype.name = function(filepath, options){
