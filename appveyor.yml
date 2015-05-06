@@ -19,7 +19,7 @@ install:
 test_script:
   - node --version
   - npm --version
-  - npm test
+  - node ./node_modules/.bin/mocha test/*.js --reporter spec
 
 build: off
 
