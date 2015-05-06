@@ -9,7 +9,7 @@ environment:
   # io.js
   - nodejs_version: "1.0"
   
-platform
+platform:
   - x64
 
 install:
