@@ -6,7 +6,8 @@
   "repository": "lexich/css-image",
   "scripts": {
     "test": "istanbul test _mocha --report html -- test/*.js --reporter spec",
-    "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+    "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
+    "testgulp": "gulp test"
   },
   "keywords": [
     "css",
@@ -24,6 +25,9 @@
   },
   "devDependencies": {
     "coveralls": "*",
+    "gulp": "^3.8.11",
+    "gulp-istanbul": "^0.8.1",
+    "gulp-mocha": "^2.0.1",
     "istanbul": "*",
     "mocha": "*",
     "mocha-lcov-reporter": "*",
