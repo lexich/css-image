@@ -1,6 +1,7 @@
 generator css and scss templates for images
 
 [![Build Status](https://travis-ci.org/lexich/css-image.svg)](https://travis-ci.org/lexich/css-image)
+[![Build status](https://ci.appveyor.com/api/projects/status/yiacc2l573m5hkm4?svg=true)](https://ci.appveyor.com/project/lexich/css-image)
 [![NPM version](https://badge.fury.io/js/css-image.svg)](http://badge.fury.io/js/css-image)
 [![Coverage Status](https://coveralls.io/repos/lexich/css-image/badge.png?branch=master)](https://coveralls.io/r/lexich/css-image?branch=master)
 
