@@ -2,10 +2,18 @@ init:
   - git config --global core.autocrlf true
 
 environment:
-  nodejs_version: "0.10"
+  matrix:
+  # node.js
+  - nodejs_version: "0.10"
+  - nodejs_version: "0.11"
+  # io.js
+  - nodejs_version: "1.0"
+  
+platform
+  - x64
 
 install:
-  - ps: Install-Product node $env:nodejs_version
+  - ps: Install-Product node $env:nodejs_version $env:platform
   - npm -g install npm@2
   - set PATH=%APPDATA%\npm;%PATH
   - npm install
