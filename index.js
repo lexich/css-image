@@ -102,7 +102,7 @@ CSSImage.prototype.normalize_folder = function(filepath, root){
 CSSImage.prototype.name = function(filepath, options){
   var postfix = options && options.postfix ? options.postfix : "";
   if(options && options.squeeze){ postfix += "-s" + options.squeeze; }
-  var prefix = options && options.prefix ? options.prefix : "img_";
+  var prefix = options && (typeof options.prefix !== "undefined") ? options.prefix : "img_";
   var separator = (options && options.separator) || "_";
   var filename = libpath.basename(filepath);
   var ext = libpath.extname(filepath);

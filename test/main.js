@@ -85,6 +85,15 @@ describe("test CSSImage", function(){
                  "}\n";
     c.css("test/images.jpg", 100, 110, "../images", {separator: "-", prefix:"img-"}).should.eql(result);
   });
+  it("test css with empty prefix", function(){
+    var result = ".test_images{\n" +
+                 "  width: 100px;\n" +
+                 "  height: 110px;\n" +
+                 "  background-image: url(../images/test/images.jpg);\n" +
+                 "  background-size: 100px 110px;\n" +
+                 "}\n";
+    c.css("test/images.jpg", 100, 110, "../images", {prefix:""}).should.eql(result);
+  });
   it("test css with retina", function(){
     var result = "@media (min-device-pixel-ratio: 2) and (min-resolution: 192dpi){\n" +
                  "  .img_test_images{\n" +
@@ -138,6 +147,15 @@ describe("test CSSImage", function(){
                  "}\n";
     c.scss_mixin("test/images.jpg", 100, 110, "../images", {squeeze:2}).should.eql(result);
   });
+  it("test scss_mixin with empty prefix", function(){
+    var result = "@mixin test_images(){\n" +
+                 "  width: 100px;\n"+
+                 "  height: 110px;\n"+
+                 "  background-image: url(../images/test/images.jpg);\n"+
+                 "  background-size: 100px 110px;\n"+
+                 "}\n";
+    c.scss_mixin("test/images.jpg", 100, 110, "../images", {prefix: ""}).should.eql(result);
+  });
 
   it("test scss_vars", function(){
     var result = "$img_test_images__width: 100px;\n" +
@@ -152,6 +170,10 @@ describe("test CSSImage", function(){
              "$img_test_images-s2__height: 55px;\n" +
              "$img_test_images-s2__path: test/images.jpg;\n";
     c.scss_vars("test/images.jpg", 100, 110, {squeeze:2}).should.eql(result);
+    result = "$test_images__width: 100px;\n" +
+             "$test_images__height: 110px;\n" +
+             "$test_images__path: test/images.jpg;\n";
+    c.scss_vars("test/images.jpg", 100, 110, {prefix:""}).should.eql(result);
   });
   it("test scss", function(){
     var result = "@mixin img_test_images(){\n" +
