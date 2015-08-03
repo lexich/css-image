@@ -60,14 +60,14 @@ describe("test CSSImage", function() {
     c.url("test.jpg", "../images", "-2x").should.eql("url(../images/test-2x.jpg)");
   });
   it("test css", function() {
-    var result = ".img_test_images{\n" +
+    var result = ".img_test_images {\n" +
                  "  width: 100px;\n" +
                  "  height: 110px;\n" +
                  "  background-image: url(../images/test/images.jpg);\n" +
                  "  background-size: 100px 110px;\n" +
                  "}\n";
     c.css("test/images.jpg", 100, 110, "../images").should.eql(result);
-    result = ".img_test_images-2x{\n" +
+    result = ".img_test_images-2x {\n" +
                  "  width: 100px;\n" +
                  "  height: 110px;\n" +
                  "  background-image: url(../images/test/images.jpg);\n" +
@@ -76,7 +76,7 @@ describe("test CSSImage", function() {
     c.css("test/images.jpg", 100, 110, "../images", { postfix: "-2x"}).should.eql(result);
   });
   it("test css with separator", function() {
-    var result = ".img-test-images{\n" +
+    var result = ".img-test-images {\n" +
                  "  width: 100px;\n" +
                  "  height: 110px;\n" +
                  "  background-image: url(../images/test/images.jpg);\n" +
@@ -85,7 +85,7 @@ describe("test CSSImage", function() {
     c.css("test/images.jpg", 100, 110, "../images", {separator: "-", prefix: "img-"}).should.eql(result);
   });
   it("test css with empty prefix", function() {
-    var result = ".test_images{\n" +
+    var result = ".test_images {\n" +
                  "  width: 100px;\n" +
                  "  height: 110px;\n" +
                  "  background-image: url(../images/test/images.jpg);\n" +
@@ -94,8 +94,8 @@ describe("test CSSImage", function() {
     c.css("test/images.jpg", 100, 110, "../images", {prefix: ""}).should.eql(result);
   });
   it("test css with retina", function() {
-    var result = "@media (min-device-pixel-ratio: 2) and (min-resolution: 192dpi){\n" +
-                 "  .img_test_images{\n" +
+    var result = "@media (min-device-pixel-ratio: 2) and (min-resolution: 192dpi) {\n" +
+                 "  .img_test_images {\n" +
                  "    width: 100px;\n" +
                  "    height: 110px;\n" +
                  "    background-image: url(../images/test/images-50pc.jpg);\n" +
@@ -105,7 +105,7 @@ describe("test CSSImage", function() {
     c.css("test/images.jpg", 100, 110, "../images", {retina: true}).should.eql(result);
   });
   it("test css with squeeze", function() {
-    var result = ".img_test_t-s2{\n" +
+    var result = ".img_test_t-s2 {\n" +
                  "  width: 50px;\n" +
                  "  height: 55px;\n" +
                  "  background-image: url(root/test/t.jpg);\n" +
@@ -216,21 +216,21 @@ describe("test CSSImage", function() {
   });
   it("test external api all args", function() {
     var result = "" +
-      ".img_t{\n" +
+      ".img_t {\n" +
       "  width: 400px;\n" +
       "  height: 300px;\n" +
       "  background-image: url(root/t.png);\n" +
       "  background-size: 400px 300px;\n" +
       "}\n" +
-      "@media (min-device-pixel-ratio: 2) and (min-resolution: 192dpi){\n" +
-      "  .img_t{\n" +
+      "@media (min-device-pixel-ratio: 2) and (min-resolution: 192dpi) {\n" +
+      "  .img_t {\n" +
       "    width: 400px;\n" +
       "    height: 300px;\n" +
       "    background-image: url(root/t-50pc.png);\n" +
       "    background-size: 400px 300px;\n" +
       "  }\n" +
       "}\n" +
-      ".img_t-s2{\n" +
+      ".img_t-s2 {\n" +
       "  width: 200px;\n" +
       "  height: 150px;\n" +
       "  background-image: url(root/t.png);\n" +
@@ -290,21 +290,21 @@ describe("test CSSImage", function() {
   });
   it("test external api css all options", function() {
     var result = "" +
-      ".img_t{\n" +
+      ".img_t {\n" +
       "  width: 400px;\n" +
       "  height: 300px;\n" +
       "  background-image: url(root/t.png);\n" +
       "  background-size: 400px 300px;\n" +
       "}\n" +
-      "@media (min-device-pixel-ratio: 2) and (min-resolution: 192dpi){\n" +
-      "  .img_t{\n" +
+      "@media (min-device-pixel-ratio: 2) and (min-resolution: 192dpi) {\n" +
+      "  .img_t {\n" +
       "    width: 400px;\n" +
       "    height: 300px;\n" +
       "    background-image: url(root/t-50pc.png);\n" +
       "    background-size: 400px 300px;\n" +
       "  }\n" +
       "}\n" +
-      ".img_t-s2{\n" +
+      ".img_t-s2 {\n" +
       "  width: 200px;\n" +
       "  height: 150px;\n" +
       "  background-image: url(root/t.png);\n" +
@@ -319,14 +319,14 @@ describe("test CSSImage", function() {
   });
   it("test external api css retina only", function() {
     var result = "" +
-      ".img_t{\n" +
+      ".img_t {\n" +
       "  width: 400px;\n" +
       "  height: 300px;\n" +
       "  background-image: url(root/t.png);\n" +
       "  background-size: 400px 300px;\n" +
       "}\n" +
-      "@media (min-device-pixel-ratio: 2) and (min-resolution: 192dpi){\n" +
-      "  .img_t{\n" +
+      "@media (min-device-pixel-ratio: 2) and (min-resolution: 192dpi) {\n" +
+      "  .img_t {\n" +
       "    width: 400px;\n" +
       "    height: 300px;\n" +
       "    background-image: url(root/t-50pc.png);\n" +
@@ -341,13 +341,13 @@ describe("test CSSImage", function() {
   });
   it("test external api css squeeze only", function() {
     var result = "" +
-      ".img_t{\n" +
+      ".img_t {\n" +
       "  width: 400px;\n" +
       "  height: 300px;\n" +
       "  background-image: url(root/t.png);\n" +
       "  background-size: 400px 300px;\n" +
       "}\n" +
-      ".img_t-s2{\n" +
+      ".img_t-s2 {\n" +
       "  width: 200px;\n" +
       "  height: 150px;\n" +
       "  background-image: url(root/t.png);\n" +
