@@ -3,11 +3,16 @@
   "version": "0.2.0",
   "description": "",
   "main": "index.js",
-  "repository": "lexich/css-image",
+  "repository": "http://github.com/lexich/css-image",
   "scripts": {
     "test": "istanbul test _mocha --report html -- test/*.js --reporter spec",
     "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
-    "testgulp": "gulp test"
+    "testgulp": "npm run jscs && npm run eslint && node_modules/.bin/gulp test",
+    "jscs": "node_modules/.bin/jscs ./*.js test/*.js",
+    "eslint": "node_modules/.bin/eslint ./*.js test/*.js",
+    "precommit": "npm test",
+    "prepush": "npm test",
+    "postmerge": "npm install"
   },
   "keywords": [
     "css",
@@ -24,13 +29,18 @@
     "node-css": "0.0.2"
   },
   "devDependencies": {
-    "coveralls": "*",
+    "babel-eslint": "^3.0.1",
+    "chai": "^3.0.0",
+    "coveralls": "^2.11.2",
+    "eslint": "^0.24.1",
+    "eslint-config-airbnb": "0.0.6",
     "gulp": "^3.8.11",
-    "gulp-istanbul": "^0.8.1",
+    "gulp-istanbul": "^0.10.0",
     "gulp-mocha": "^2.0.1",
+    "husky": "^0.9.1",
     "istanbul": "*",
-    "mocha": "*",
-    "mocha-lcov-reporter": "*",
-    "should": "~2.1.0"
+    "jscs": "^2.0.0",
+    "mocha": "^2.2.4",
+    "mocha-lcov-reporter": "0.0.2"
   }
 }

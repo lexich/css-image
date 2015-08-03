@@ -1,26 +1,26 @@
 "use strict";
 var nodecss = require("node-css"),
     _ = require("lodash"),
-    libpath = require("path"),
-    CSS = nodecss.CSS;
+    libpath = require("path");
 
+var CSS = nodecss.CSS;
 var rxReplacePath = /(\/|\\)/g;
 var MEDIA_QUERY = "(min-device-pixel-ratio: 2) and (min-resolution: 192dpi)";
 var css = new CSS();
 
-function CSSImage(){
+function CSSImage() {
 }
 
-CSSImage.prototype.css = function(filepath, width, height, root, options){
+CSSImage.prototype.css = function(filepath, width, height, root, options) {
   var classname = "." + this.name(filepath, options);
-  if(!options){ options = {}; }
-  if(options.retina){
+  if (!options) { options = {}; }
+  if (options.retina) {
     options.media = MEDIA_QUERY;
   }
   var squeeze = !!options.squeeze ? +options.squeeze : 1;
-  var _width = Math.floor(width/squeeze);
-  var _height = Math.floor(height/squeeze);
-  return css.statement(classname,{
+  var _width = Math.floor(width / squeeze);
+  var _height = Math.floor(height / squeeze);
+  return css.statement(classname, {
     width: _width + "px",
     height: _height + "px",
     "background-image": this.url(filepath, root, options.retina),
@@ -28,121 +28,122 @@ CSSImage.prototype.css = function(filepath, width, height, root, options){
   }, options);
 };
 
-CSSImage.prototype.scss_vars = function(filepath, _width, _height, options){
+CSSImage.prototype.scssVars = function(filepath, _width, _height, options) {
   var name = this.name(filepath, options);
   var squeeze = (options && !!options.squeeze) ? +options.squeeze : 1;
-  var width = Math.floor(_width/squeeze);
-  var height = Math.floor(_height/squeeze);
+  var width = Math.floor(_width / squeeze);
+  var height = Math.floor(_height / squeeze);
   var root = (options && options.root) || "";
   var retina = options && !!options.retina;
 
   return "$" + name + "__width: " + width + "px;\n" +
          "$" + name + "__height: " + height + "px;\n" +
-         "$" + name + "__path: '" + this.normalize_path(filepath, root, retina) + "';\n";
+         "$" + name + "__path: '" + this.normalizePath(filepath, root, retina) + "';\n";
 };
 
-CSSImage.prototype.scss_mixin = function(filepath, _width, _height, root, options){
+CSSImage.prototype.scssMixin = function(filepath, _width, _height, root, options) {
   var name = this.name(filepath, options);
-  if(!options){ options = {}; }
+  if (!options) { options = {}; }
   var classname = "@mixin " + name + "()";
-  var is_retina = !!options.retina;
+  var isRetina = !!options.retina;
   var indent = css.options(options, "indent");
   var squeeze = (options && !!options.squeeze) ? +options.squeeze : 1;
-  var width = Math.floor(_width/squeeze);
-  var height = Math.floor(_height/squeeze);
+  var width = Math.floor(_width / squeeze);
+  var height = Math.floor(_height / squeeze);
 
-  var scss_mixin = css.body({
+  var scssMixin = css.body({
     width: width + "px",
     height: height + "px",
     "background-image": this.url(filepath, root),
     "background-size": "" + width  + "px " + height + "px"
   }, {indent: indent});
 
-  if(is_retina){
+  if (isRetina) {
     var body = css.body({
       width: width + "px",
       height: height + "px",
       "background-image": this.url(filepath, root, options.retina),
       "background-size": "" + width  + "px " + height + "px"
     }, {indent: indent + indent});
-    scss_mixin += indent + "@media " + MEDIA_QUERY + "{\n" + body + indent + "}\n";
+    scssMixin += indent + "@media " + MEDIA_QUERY + " {\n" + body + indent + "}\n";
   }
-  return classname + "{\n" + scss_mixin + "}\n";
+  return classname + " {\n" + scssMixin + "}\n";
 };
 
-CSSImage.prototype.scss = function(filepath, width, height, root, options){
-  return this.scss_mixin(filepath, width, height, root, options) +
-         this.scss_vars(filepath, width, height, options);
+CSSImage.prototype.scss = function(filepath, width, height, root, options) {
+  return this.scssMixin(filepath, width, height, root, options) +
+         this.scssVars(filepath, width, height, options);
 };
 
-CSSImage.prototype.url = function(filepath, root, retina){
-  return "url(" + this.normalize_path(filepath, root, retina) + ")";
+CSSImage.prototype.url = function(filepath, root, retina) {
+  return "url(" + this.normalizePath(filepath, root, retina) + ")";
 };
 
-CSSImage.prototype.normalize_path = function(filepath, root, retina){
+CSSImage.prototype.normalizePath = function(filepath, root, retina) {
   var name = libpath.basename(filepath);
   var ext = libpath.extname(filepath);
-  if(!!retina){
+  if (!!retina) {
     var postfix = (typeof retina === "string") ? retina : "-50pc";
     name = name.replace(ext, postfix + ext);
   }
-  var normalized_path = libpath.join(this.normalize_folder(filepath, root), name);
-  normalized_path = normalized_path.replace(rxReplacePath, '/');
-  return normalized_path;
+  var normalizedPath = libpath.join(this.normalizeFolder(filepath, root), name);
+  normalizedPath = normalizedPath.replace(rxReplacePath, "/");
+  return normalizedPath;
 };
 
-CSSImage.prototype.normalize_folder = function(filepath, root){
+CSSImage.prototype.normalizeFolder = function(filepath, root) {
   var folder = libpath.dirname(filepath);
-  if(folder[0] === "." && folder[1] !== "."){ folder = folder.slice(1); }
-  if(folder[0] === "/"){ folder = folder.slice(1); }
+  if (folder[0] === "." && folder[1] !== ".") { folder = folder.slice(1); }
+  if (folder[0] === "/") { folder = folder.slice(1); }
   var result = root ? libpath.join(root, folder) : folder;
   return result.replace(rxReplacePath, "/");
 };
 
-CSSImage.prototype.name = function(filepath, options){
+CSSImage.prototype.name = function(filepath, options) {
   var postfix = options && options.postfix ? options.postfix : "";
-  if(options && options.squeeze){ postfix += "-s" + options.squeeze; }
+  if (options && options.squeeze) { postfix += "-s" + options.squeeze; }
   var prefix = options && (typeof options.prefix !== "undefined") ? options.prefix : "img_";
   var separator = (options && options.separator) || "_";
   var filename = libpath.basename(filepath);
   var ext = libpath.extname(filepath);
-  var name = filename.slice(0, filename.length - ext.length).replace(/\./,"");
-  var folder = this.normalize_folder(filepath);
-  if(folder === ""){ return prefix + name + postfix; }
+  var name = filename.slice(0, filename.length - ext.length).replace(/\./, "");
+  var folder = this.normalizeFolder(filepath);
+  if (folder === "") { return prefix + name + postfix; }
+
   // windows fix
   folder = folder.replace(rxReplacePath, separator);
   return prefix + folder + separator + name + postfix;
 };
 
 var _cssImage = new CSSImage();
-function cssimage(images, _options){
-  var options = _.omit(_options, ["retina","squeeze"]);
-  var is_css = !!options.css;
-  var is_scss = !!options.scss;
+function cssimage(images, _options) {
+  var options = _.omit(_options, ["retina", "squeeze"]);
+  var isCss = !!options.css;
+  var isScss = !!options.scss;
   var root = options.root || "";
   var result = "";
-  var is_retina = _options && !!_options.retina;
+  var isRetina = _options && !!_options.retina;
   var squeeze = (_options && _options.squeeze) || 1;
-  for(var i = 0; i< images.length; i++){
+  for (var i = 0; i < images.length; i++) {
     var img = images[i];
-    if(is_css){
+    if (isCss) {
       result += _cssImage.css(img.file, img.width, img.height, root, options);
-      if(is_retina){
+      if (isRetina) {
         result += _cssImage.css(img.file, img.width, img.height, root, _.extend({
           retina: true
         }, options));
       }
-      if(squeeze !== 1){
+      if (squeeze !== 1) {
         result += _cssImage.css(img.file, img.width, img.height, root, _.extend({
           squeeze: squeeze
         }, options));
       }
     }
-    if(is_scss){
+    if (isScss) {
       result += _cssImage.scss(img.file, img.width, img.height, root, _.extend({
-        retina: is_retina
+        retina: isRetina
       }, options));
-      if(squeeze !== 1){
+      if (squeeze !== 1) {
         result += _cssImage.scss(img.file, img.width, img.height, root, _.extend({
           squeeze: squeeze
         }, options));
