@@ -33,9 +33,12 @@ CSSImage.prototype.scss_vars = function(filepath, _width, _height, options){
   var squeeze = (options && !!options.squeeze) ? +options.squeeze : 1;
   var width = Math.floor(_width/squeeze);
   var height = Math.floor(_height/squeeze);
+  var root = (options && options.root) || "";
+  var retina = options && !!options.retina;
 
   return "$" + name + "__width: " + width + "px;\n" +
-         "$" + name + "__height: " + height + "px;\n";
+         "$" + name + "__height: " + height + "px;\n" +
+         "$" + name + "__path: " + this.normalize_path(filepath, root, retina) + ";\n";
 };
 
 CSSImage.prototype.scss_mixin = function(filepath, _width, _height, root, options){
