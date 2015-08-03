@@ -1,4 +1,4 @@
-/*global describe, it, xit*/
+/* global describe, it, xit */
 /* jshint expr: true */
 "use strict";
 

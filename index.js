@@ -1,7 +1,7 @@
 "use strict";
 var nodecss = require("node-css"),
-    _ = require("lodash"),
-    libpath = require("path");
+  _ = require("lodash"),
+  libpath = require("path");
 
 var CSS = nodecss.CSS;
 var rxReplacePath = /(\/|\\)/g;
