@@ -58,6 +58,7 @@ result is
 } 
 $img_t__width: 400px; 
 $img_t__height: 300px; 
+$img_t__path: 'root/t-50pc.png'; 
 @mixin img_t-s2(){ 
   width: 200px; 
   height: 150px; 
@@ -66,6 +67,7 @@ $img_t__height: 300px;
 } 
 $img_t-s2__width: 200px; 
 $img_t-s2__height: 150px;
+$img_t-s2__path: 'root/t.png'; 
 ```
 
 ### Options
@@ -142,6 +144,7 @@ $img_t-s2__height: 150px;
   } 
   $img_t__width: 400px; 
   $img_t__height: 300px; 
+  $img_t__path: 'root/t.png'; 
   ```
 
 - **squeeze**: squeeze image in `squeeze` times  
@@ -173,6 +176,7 @@ $img_t-s2__height: 150px;
   } 
   $img_t__width: 400px; 
   $img_t__height: 300px; 
+  $img_t__path: 'root/t.png';
   @mixin img_t-s2(){ 
     width: 200px; 
     height: 150px; 
@@ -181,6 +185,7 @@ $img_t-s2__height: 150px;
   } 
   $img_t-s2__width: 200px; 
   $img_t-s2__height: 150px;
+  $img_t-s2__path: 'root/t.png';
   ```
   
 - **separator**: separator for generating names
@@ -192,6 +197,8 @@ $img_t-s2__height: 150px;
 > *default*: "img_"  
 
 ### ChangeLog
+- 0.2.1 add image_path variable to sass mode
+        allow empty prefix 
 - 0.1.0 rename css-image
 - 0.0.2 add separator option
 - 0.0.1 Basic functionality
