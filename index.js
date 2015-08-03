@@ -38,7 +38,7 @@ CSSImage.prototype.scss_vars = function(filepath, _width, _height, options){
 
   return "$" + name + "__width: " + width + "px;\n" +
          "$" + name + "__height: " + height + "px;\n" +
-         "$" + name + "__path: " + this.normalize_path(filepath, root, retina) + ";\n";
+         "$" + name + "__path: '" + this.normalize_path(filepath, root, retina) + "';\n";
 };
 
 CSSImage.prototype.scss_mixin = function(filepath, _width, _height, root, options){

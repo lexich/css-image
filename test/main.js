@@ -160,19 +160,19 @@ describe("test CSSImage", function(){
   it("test scss_vars", function(){
     var result = "$img_test_images__width: 100px;\n" +
                  "$img_test_images__height: 110px;\n" +
-                 "$img_test_images__path: test/images.jpg;\n";
+                 "$img_test_images__path: 'test/images.jpg';\n";
     c.scss_vars("test/images.jpg", 100, 110).should.eql(result);
     result = "$img_test_images-2x__width: 100px;\n" +
              "$img_test_images-2x__height: 110px;\n" +
-             "$img_test_images-2x__path: test/images.jpg;\n";
+             "$img_test_images-2x__path: 'test/images.jpg';\n";
     c.scss_vars("test/images.jpg", 100, 110, {postfix:"-2x"}).should.eql(result);
     result = "$img_test_images-s2__width: 50px;\n" +
              "$img_test_images-s2__height: 55px;\n" +
-             "$img_test_images-s2__path: test/images.jpg;\n";
+             "$img_test_images-s2__path: 'test/images.jpg';\n";
     c.scss_vars("test/images.jpg", 100, 110, {squeeze:2}).should.eql(result);
     result = "$test_images__width: 100px;\n" +
              "$test_images__height: 110px;\n" +
-             "$test_images__path: test/images.jpg;\n";
+             "$test_images__path: 'test/images.jpg';\n";
     c.scss_vars("test/images.jpg", 100, 110, {prefix:""}).should.eql(result);
   });
   it("test scss", function(){
@@ -184,7 +184,7 @@ describe("test CSSImage", function(){
                  "}\n" +
                 "$img_test_images__width: 100px;\n" +
                 "$img_test_images__height: 110px;\n" +
-                "$img_test_images__path: test/images.jpg;\n";
+                "$img_test_images__path: 'test/images.jpg';\n";
     c.scss("test/images.jpg", 100, 110, "../images").should.eql(result);
     result = "@mixin img_test_images-2x(){\n" +
              "  width: 100px;\n"+
@@ -194,7 +194,7 @@ describe("test CSSImage", function(){
              "}\n" +
             "$img_test_images-2x__width: 100px;\n" +
             "$img_test_images-2x__height: 110px;\n" +
-            "$img_test_images-2x__path: test/images.jpg;\n";
+            "$img_test_images-2x__path: 'test/images.jpg';\n";
     c.scss("test/images.jpg", 100, 110, "../images", {postfix: "-2x"}).should.eql(result);
 
   });
@@ -213,7 +213,7 @@ describe("test CSSImage", function(){
                  "}\n" +
                 "$img_test_images__width: 100px;\n" +
                 "$img_test_images__height: 110px;\n" +
-                "$img_test_images__path: test/images-50pc.jpg;\n";
+                "$img_test_images__path: 'test/images-50pc.jpg';\n";
     c.scss("test/images.jpg", 100, 110, "../images", {retina: true}).should.eql(result);
   });
   it("test external api all args", function(){
@@ -252,7 +252,7 @@ describe("test CSSImage", function(){
       "}\n" +
       "$img_t__width: 400px;\n" +
       "$img_t__height: 300px;\n" +
-      "$img_t__path: root/t-50pc.png;\n" +
+      "$img_t__path: 'root/t-50pc.png';\n" +
       "@mixin img_t-s2(){\n" +
       "  width: 200px;\n" +
       "  height: 150px;\n" +
@@ -261,7 +261,7 @@ describe("test CSSImage", function(){
       "}\n" +
       "$img_t-s2__width: 200px;\n" +
       "$img_t-s2__height: 150px;\n" +
-      "$img_t-s2__path: root/t.png;\n";
+      "$img_t-s2__path: 'root/t.png';\n";
 
     cssimage([{ width: 400, height: 300, file: "t.png"}],{
       css: true,
@@ -281,7 +281,7 @@ describe("test CSSImage", function(){
       "}\n" +
       "$img_t__width: 400px;\n" +
       "$img_t__height: 300px;\n" +
-      "$img_t__path: root/t.png;\n";
+      "$img_t__path: 'root/t.png';\n";
 
     cssimage([{ width: 400, height: 300, file: "t.png"}],{
       css: false,
@@ -377,7 +377,7 @@ describe("test CSSImage", function(){
       "}\n" +
       "$img_t__width: 400px;\n" +
       "$img_t__height: 300px;\n" +
-      "$img_t__path: root/t-50pc.png;\n" +
+      "$img_t__path: 'root/t-50pc.png';\n" +
       "@mixin img_t-s2(){\n" +
       "  width: 200px;\n" +
       "  height: 150px;\n" +
@@ -386,7 +386,7 @@ describe("test CSSImage", function(){
       "}\n" +
       "$img_t-s2__width: 200px;\n" +
       "$img_t-s2__height: 150px;\n" +
-      "$img_t-s2__path: root/t.png;\n";
+      "$img_t-s2__path: 'root/t.png';\n";
 
     cssimage([{ width: 400, height: 300, file: "t.png"}],{
       scss: true,
