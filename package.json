@@ -9,11 +9,7 @@
     "coveralls": "npm run eslint && npm run jscs && istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
     "testgulp": "npm run jscs && npm run eslint && node_modules/.bin/gulp test",
     "jscs": "node_modules/.bin/jscs ./*.js test/*.js",
-    "eslint": "node_modules/.bin/eslint ./*.js test/*.js",
-    "precommit": "npm test",
-    "prepush": "npm test",
-    "postmerge": "npm install",
-    "install": "if [ ! -z '$APPVEYOR' ]; then npm install husky; fi"
+    "eslint": "node_modules/.bin/eslint ./*.js test/*.js"
   },
   "keywords": [
     "css",
