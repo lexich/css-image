@@ -11,6 +11,8 @@ describe("test CSSImage", function() {
   it("test name", function() {
     c.name("2.png").should.eql("img_2");
     c.name("test/2.jpg").should.eql("img_test_2");
+    c.name("test/2 Two.jpg").should.eql("img_test_2Two");
+    c.name("test one/2 Two.jpg").should.eql("img_testone_2Two");
     c.name("/images/test/2.gif").should.eql("img_images_test_2");
     c.name("./images/test/2.gif").should.eql("img_images_test_2");
     c.name(".images/test/2.gif").should.eql("img_images_test_2");

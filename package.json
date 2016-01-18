@@ -1,11 +1,12 @@
 {
   "name": "css-image",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "",
   "main": "index.js",
   "repository": "http://github.com/lexich/css-image",
   "scripts": {
-    "test": "npm run eslint && npm run jscs && istanbul test _mocha --report html -- test/*.js --reporter spec",
+    "test": "npm run eslint && npm run jscs && npm run mocha",
+    "mocha": "istanbul test _mocha --report html -- test/*.js --reporter spec",
     "coveralls": "npm run eslint && npm run jscs && istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
     "testgulp": "node_modules/.bin/gulp test",
     "jscs": "node_modules/.bin/jscs ./*.js test/*.js",

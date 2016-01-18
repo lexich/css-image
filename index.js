@@ -5,6 +5,7 @@ var nodecss = require("node-css"),
 
 var CSS = nodecss.CSS;
 var rxReplacePath = /(\/|\\)/g;
+var rxCleanSpace = /[ ]/g;
 var MEDIA_QUERY = "(min-device-pixel-ratio: 2) and (min-resolution: 192dpi)";
 var css = new CSS();
 
@@ -96,7 +97,7 @@ CSSImage.prototype.normalizeFolder = function(filepath, root) {
   if (folder[0] === "." && folder[1] !== ".") { folder = folder.slice(1); }
   if (folder[0] === "/") { folder = folder.slice(1); }
   var result = root ? libpath.join(root, folder) : folder;
-  return result.replace(rxReplacePath, "/");
+  return result.replace(rxReplacePath, "/").replace(rxCleanSpace, "");
 };
 
 CSSImage.prototype.name = function(filepath, options) {
@@ -106,7 +107,8 @@ CSSImage.prototype.name = function(filepath, options) {
   var separator = (options && options.separator) || "_";
   var filename = libpath.basename(filepath);
   var ext = libpath.extname(filepath);
-  var name = filename.slice(0, filename.length - ext.length).replace(/\./, "");
+  var name = filename.slice(0, filename.length - ext.length)
+    .replace(/\./, "").replace(rxCleanSpace, "");
   var folder = this.normalizeFolder(filepath);
   if (folder === "") { return prefix + name + postfix; }
 
