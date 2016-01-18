@@ -1,4 +1,5 @@
 "use strict";
+/* eslint object-shorthand: 0 */
 var nodecss = require("node-css"),
   _ = require("lodash"),
   libpath = require("path");
@@ -12,7 +13,7 @@ var css = new CSS();
 function CSSImage() {
 }
 
-CSSImage.prototype.css = function(filepath, width, height, root, options) {
+CSSImage.prototype.css = function (filepath, width, height, root, options) {
   var classname = "." + this.name(filepath, options);
   if (!options) { options = {}; }
   if (options.retina) {
@@ -29,7 +30,7 @@ CSSImage.prototype.css = function(filepath, width, height, root, options) {
   }, options);
 };
 
-CSSImage.prototype.scssVars = function(filepath, _width, _height, options) {
+CSSImage.prototype.scssVars = function (filepath, _width, _height, options) {
   var name = this.name(filepath, options);
   var squeeze = (options && !!options.squeeze) ? +options.squeeze : 1;
   var width = Math.floor(_width / squeeze);
@@ -42,7 +43,7 @@ CSSImage.prototype.scssVars = function(filepath, _width, _height, options) {
          "$" + name + "__path: '" + this.normalizePath(filepath, root, retina) + "';\n";
 };
 
-CSSImage.prototype.scssMixin = function(filepath, _width, _height, root, options) {
+CSSImage.prototype.scssMixin = function (filepath, _width, _height, root, options) {
   var name = this.name(filepath, options);
   if (!options) { options = {}; }
   var classname = "@mixin " + name + "()";
@@ -57,7 +58,7 @@ CSSImage.prototype.scssMixin = function(filepath, _width, _height, root, options
     height: height + "px",
     "background-image": this.url(filepath, root),
     "background-size": "" + width  + "px " + height + "px"
-  }, {indent: indent});
+  }, { indent: indent });
 
   if (isRetina) {
     var body = css.body({
@@ -65,22 +66,22 @@ CSSImage.prototype.scssMixin = function(filepath, _width, _height, root, options
       height: height + "px",
       "background-image": this.url(filepath, root, options.retina),
       "background-size": "" + width  + "px " + height + "px"
-    }, {indent: indent + indent});
+    }, { indent: indent + indent });
     scssMixin += indent + "@media " + MEDIA_QUERY + " {\n" + body + indent + "}\n";
   }
   return classname + " {\n" + scssMixin + "}\n";
 };
 
-CSSImage.prototype.scss = function(filepath, width, height, root, options) {
+CSSImage.prototype.scss = function (filepath, width, height, root, options) {
   return this.scssMixin(filepath, width, height, root, options) +
          this.scssVars(filepath, width, height, options);
 };
 
-CSSImage.prototype.url = function(filepath, root, retina) {
+CSSImage.prototype.url = function (filepath, root, retina) {
   return "url(" + this.normalizePath(filepath, root, retina) + ")";
 };
 
-CSSImage.prototype.normalizePath = function(filepath, root, retina) {
+CSSImage.prototype.normalizePath = function (filepath, root, retina) {
   var name = libpath.basename(filepath);
   var ext = libpath.extname(filepath);
   if (!!retina) {
@@ -92,7 +93,7 @@ CSSImage.prototype.normalizePath = function(filepath, root, retina) {
   return normalizedPath;
 };
 
-CSSImage.prototype.normalizeFolder = function(filepath, root) {
+CSSImage.prototype.normalizeFolder = function (filepath, root) {
   var folder = libpath.dirname(filepath);
   if (folder[0] === "." && folder[1] !== ".") { folder = folder.slice(1); }
   if (folder[0] === "/") { folder = folder.slice(1); }
@@ -100,7 +101,7 @@ CSSImage.prototype.normalizeFolder = function(filepath, root) {
   return result.replace(rxReplacePath, "/").replace(rxCleanSpace, "");
 };
 
-CSSImage.prototype.name = function(filepath, options) {
+CSSImage.prototype.name = function (filepath, options) {
   var postfix = options && options.postfix ? options.postfix : "";
   if (options && options.squeeze) { postfix += "-s" + options.squeeze; }
   var prefix = options && (typeof options.prefix !== "undefined") ? options.prefix : "img_";
