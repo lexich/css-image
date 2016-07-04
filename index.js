@@ -1,7 +1,8 @@
 "use strict";
 /* eslint object-shorthand: 0 */
 var nodecss = require("node-css"),
-  _ = require("lodash"),
+  omit = require("lodash/omit"),
+  extend = require("lodash/extend"),
   libpath = require("path");
 
 var CSS = nodecss.CSS;
@@ -120,7 +121,7 @@ CSSImage.prototype.name = function (filepath, options) {
 
 var _cssImage = new CSSImage();
 function cssimage(images, _options) {
-  var options = _.omit(_options, ["retina", "squeeze"]);
+  var options = omit(_options, ["retina", "squeeze"]);
   var isCss = !!options.css;
   var isScss = !!options.scss;
   var root = options.root || "";
@@ -132,22 +133,22 @@ function cssimage(images, _options) {
     if (isCss) {
       result += _cssImage.css(img.file, img.width, img.height, root, options);
       if (isRetina) {
-        result += _cssImage.css(img.file, img.width, img.height, root, _.extend({
+        result += _cssImage.css(img.file, img.width, img.height, root, extend({
           retina: true
         }, options));
       }
       if (squeeze !== 1) {
-        result += _cssImage.css(img.file, img.width, img.height, root, _.extend({
+        result += _cssImage.css(img.file, img.width, img.height, root, extend({
           squeeze: squeeze
         }, options));
       }
     }
     if (isScss) {
-      result += _cssImage.scss(img.file, img.width, img.height, root, _.extend({
+      result += _cssImage.scss(img.file, img.width, img.height, root, extend({
         retina: isRetina
       }, options));
       if (squeeze !== 1) {
-        result += _cssImage.scss(img.file, img.width, img.height, root, _.extend({
+        result += _cssImage.scss(img.file, img.width, img.height, root, extend({
           squeeze: squeeze
         }, options));
       }
