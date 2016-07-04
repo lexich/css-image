@@ -107,6 +107,17 @@ describe("test CSSImage", function () {
                  "}\n";
     c.css("test/images.jpg", 100, 110, "../images", { retina: true }).should.eql(result);
   });
+  it("test css with retina prefix", function () {
+    var result = "@media (min-device-pixel-ratio: 2) and (min-resolution: 192dpi) {\n" +
+                 "  .img_test_images {\n" +
+                 "    width: 100px;\n" +
+                 "    height: 110px;\n" +
+                 "    background-image: url(../images/test/images_2x.jpg);\n" +
+                 "    background-size: 100px 110px;\n" +
+                 "  }\n" +
+                 "}\n";
+    c.css("test/images.jpg", 100, 110, "../images", { retina: "_2x" }).should.eql(result);
+  });
   it("test css with squeeze", function () {
     var result = ".img_test_t-s2 {\n" +
                  "  width: 50px;\n" +
@@ -130,6 +141,21 @@ describe("test CSSImage", function () {
                  "  }\n" +
                  "}\n";
     c.scssMixin("test/images.jpg", 100, 110, "../images", { retina: true }).should.eql(result);
+  });
+  it("test scssMixin with retina prefix", function () {
+    var result = "@mixin img_test_images() {\n" +
+                 "  width: 100px;\n" +
+                 "  height: 110px;\n" +
+                 "  background-image: url(../images/test/images.jpg);\n" +
+                 "  background-size: 100px 110px;\n" +
+                 "  @media (min-device-pixel-ratio: 2) and (min-resolution: 192dpi) {\n" +
+                 "    width: 100px;\n" +
+                 "    height: 110px;\n" +
+                 "    background-image: url(../images/test/images_2x.jpg);\n" +
+                 "    background-size: 100px 110px;\n" +
+                 "  }\n" +
+                 "}\n";
+    c.scssMixin("test/images.jpg", 100, 110, "../images", { retina: "_2x" }).should.eql(result);
   });
   it("test scssMixin", function () {
     var result = "@mixin img_test_images() {\n" +
@@ -177,27 +203,41 @@ describe("test CSSImage", function () {
              "$test_images__path: 'test/images.jpg';\n";
     c.scssVars("test/images.jpg", 100, 110, { prefix: "" }).should.eql(result);
   });
-  it("test scss", function () {
-    var result = "@mixin img_test_images() {\n" +
-                 "  width: 100px;\n" +
-                 "  height: 110px;\n" +
-                 "  background-image: url(../images/test/images.jpg);\n" +
-                 "  background-size: 100px 110px;\n" +
-                 "}\n" +
-                "$img_test_images__width: 100px;\n" +
-                "$img_test_images__height: 110px;\n" +
-                "$img_test_images__path: 'test/images.jpg';\n";
-    c.scss("test/images.jpg", 100, 110, "../images").should.eql(result);
-    result = "@mixin img_test_images-2x() {\n" +
-             "  width: 100px;\n" +
-             "  height: 110px;\n" +
-             "  background-image: url(../images/test/images.jpg);\n" +
-             "  background-size: 100px 110px;\n" +
-             "}\n" +
-            "$img_test_images-2x__width: 100px;\n" +
-            "$img_test_images-2x__height: 110px;\n" +
-            "$img_test_images-2x__path: 'test/images.jpg';\n";
-    c.scss("test/images.jpg", 100, 110, "../images", { postfix: "-2x" }).should.eql(result);
+  it("test scssVars with retina", function () {
+    var result = "$img_test_images__width: 100px;\n" +
+                 "$img_test_images__height: 110px;\n" +
+                 "$img_test_images__path: 'test/images.jpg';\n";
+    c.scssVars("test/images.jpg", 100, 110).should.eql(result);
+    result = "$img_test_images-2x__width: 100px;\n" +
+             "$img_test_images-2x__height: 110px;\n" +
+             "$img_test_images-2x__path: 'test/images.jpg';\n";
+    c.scssVars("test/images.jpg", 100, 110, { postfix: "-2x" }).should.eql(result);
+    result = "$img_test_images-s2__width: 50px;\n" +
+             "$img_test_images-s2__height: 55px;\n" +
+             "$img_test_images-s2__path: 'test/images.jpg';\n";
+    c.scssVars("test/images.jpg", 100, 110, { squeeze: 2 }).should.eql(result);
+    result = "$test_images__width: 100px;\n" +
+             "$test_images__height: 110px;\n" +
+             "$test_images__path: 'test/images.jpg';\n";
+    c.scssVars("test/images.jpg", 100, 110, { prefix: "" }).should.eql(result);
+  });
+  it("test scssVars with retina prefix", function () {
+    var result = "$img_test_images__width: 100px;\n" +
+                 "$img_test_images__height: 110px;\n" +
+                 "$img_test_images__path: 'test/images_2x.jpg';\n";
+    c.scssVars("test/images.jpg", 100, 110, { retina: "_2x" }).should.eql(result);
+    result = "$img_test_images-2x__width: 100px;\n" +
+             "$img_test_images-2x__height: 110px;\n" +
+             "$img_test_images-2x__path: 'test/images_2x.jpg';\n";
+    c.scssVars("test/images.jpg", 100, 110, { postfix: "-2x", retina: "_2x" }).should.eql(result);
+    result = "$img_test_images-s2__width: 50px;\n" +
+             "$img_test_images-s2__height: 55px;\n" +
+             "$img_test_images-s2__path: 'test/images_2x.jpg';\n";
+    c.scssVars("test/images.jpg", 100, 110, { retina: "_2x", squeeze: 2 }).should.eql(result);
+    result = "$test_images__width: 100px;\n" +
+             "$test_images__height: 110px;\n" +
+             "$test_images__path: 'test/images_2x.jpg';\n";
+    c.scssVars("test/images.jpg", 100, 110, { prefix: "", retina: "_2x" }).should.eql(result);
   });
   it("test scss with retina", function () {
     var result = "@mixin img_test_images() {\n" +
@@ -216,6 +256,24 @@ describe("test CSSImage", function () {
                 "$img_test_images__height: 110px;\n" +
                 "$img_test_images__path: 'test/images-50pc.jpg';\n";
     c.scss("test/images.jpg", 100, 110, "../images", { retina: true }).should.eql(result);
+  });
+  it("test scss with retina prefix", function () {
+    var result = "@mixin img_test_images() {\n" +
+                 "  width: 100px;\n" +
+                 "  height: 110px;\n" +
+                 "  background-image: url(../images/test/images.jpg);\n" +
+                 "  background-size: 100px 110px;\n" +
+                 "  @media (min-device-pixel-ratio: 2) and (min-resolution: 192dpi) {\n" +
+                 "    width: 100px;\n" +
+                 "    height: 110px;\n" +
+                 "    background-image: url(../images/test/images_2x.jpg);\n" +
+                 "    background-size: 100px 110px;\n" +
+                 "  }\n" +
+                 "}\n" +
+                "$img_test_images__width: 100px;\n" +
+                "$img_test_images__height: 110px;\n" +
+                "$img_test_images__path: 'test/images_2x.jpg';\n";
+    c.scss("test/images.jpg", 100, 110, "../images", { retina: "_2x" }).should.eql(result);
   });
   it("test external api all args", function () {
     var result = "" +
