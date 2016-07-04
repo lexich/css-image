@@ -37,7 +37,8 @@ CSSImage.prototype.scssVars = function (filepath, _width, _height, options) {
   var width = Math.floor(_width / squeeze);
   var height = Math.floor(_height / squeeze);
   var root = (options && options.root) || "";
-  var retina = options && !!options.retina;
+  var retina = options && (("retina" in options) && (typeof options.retina === "string") ?
+    options.retina : !!options.retina);
 
   return "$" + name + "__width: " + width + "px;\n" +
          "$" + name + "__height: " + height + "px;\n" +
